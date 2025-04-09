@@ -1,0 +1,39 @@
+--Criar banco - CREATE
+--Apagar banco - DROP
+-- PRIMARY KEY - COLUNA QUE INDENTIFICA CLIENTE
+--IDENTITY - GERA AUTOMATICAMENTE O ID 
+USE Ecommerce
+
+CREATE DATABASE Ecommerce;
+
+CREATE TABLE Cliente (
+IdCliente INT PRIMARY KEY IDENTITY,
+NomeCompleto VARCHAR(155),E_Mail VARCHAR(100), Telefone VARCHAR(50), Endereco VARCHAR(255), DataCadastro DATE
+);
+
+CREATE TABLE Pedido(
+IdPedido INT PRIMARY KEY IDENTITY, DataPedido DATE, StatusPedido VARCHAR(25), VAlorTotal DECIMAL(18, 6),
+IdCliente INT FOREIGN KEY REFERENCES Cliente(IdCliente)
+);
+
+CREATE TABLE Produto(IdProduto INT PRIMARY KEY IDENTITY, NomeProduto VARCHAR(255),DescricaoProduto VARCHAR(255), 
+Preco DECIMAL(18, 6), EstoqueDisponivel INT, CategoriaProduto VARCHAR(100), ImagemProduto VARCHAR(255) 
+);
+
+CREATE TABLE ItemPedido(
+IdItemPedido INT PRIMARY KEY IDENTITY, Quantidade INT, IdPedido INT FOREIGN KEY REFERENCES Pedido(IdPedido),
+IdProduto INT FOREIGN KEY REFERENCES Produto (IdProduto) 
+);
+
+CREATE TABLE Pagamento(IdPagamento INT PRIMARY KEY IDENTITY, FormaPagamento VARCHAR(30), StatusPagamento VARCHAR(30), DataPagamento DATETIME,
+IdPedido INT FOREIGN KEY REFERENCES Pedido(IdPedido)
+);
+
+
+--A ORDEM DO DROP DEVE SER FORMADA CPM A MESMA ORDEM DE REFERENCIAMENTO DENTRO DAS TABELAS 
+
+DROP TABLE ItemPedido;
+DROP TABLE Pagamento;
+DROP TABLE Pedido;
+DROP TABLE Produto;
+DROP TABLE Cliente;
